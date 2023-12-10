@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <style>
+        /* Стилизация формы */
+        form {
+            margin-bottom: 15px;
+        }
+
+        /* Стилизация таблицы */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Стилизация кнопок */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+<h1>Корзина</h1>
+<!-- Форма для добавления нового товара -->
+<h2>Добавить товар</h2>
+<form action="/addToCart" method="post" th:object="${newProduct}">
+    <label for="productName">Название товара:</label>
+    <input type="text" id="productName" name="name" required>
+
+    <label for="quantity">Количество:</label>
+    <input type="number" id="quantity" name="quantity" required>
+
+    <button type="submit">Добавить в корзину</button>
+</form>
+
+<!-- Таблица с товарами -->
+<h2>Товары в корзине</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Название товара</th>
+        <th>Количество</th>
+        <th>Удалить</th> <!-- Добавлен столбец для кнопок удаления -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.quantity}"></td>
+        <!-- Пример иконки для кнопки удаления -->
+        <td>
+            <form action="/removeFromCart" method="post">
+                <input type="hidden" name="id" th:value="${product.id}">
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM4.646 4.646a.5.5 0 1 1 .708-.708L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1-.708-.708z"/>
+                    </svg>
+                </button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
